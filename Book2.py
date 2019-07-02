@@ -459,7 +459,7 @@ class Book:
         logging.info("Total length of the data is {}.".format(len(self.flat_bodies)))
         
     def sampler(someList, numberofruns):
-        '''   #ADDED: for random sampling of results'''
+        '''   #TODO: fix. For random sampling of results'''
         n = 0
         while n < numberofruns:
             i = random.randint(0,len(someList))
