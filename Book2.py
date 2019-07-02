@@ -148,7 +148,7 @@ class Book:
                 soupFull = BeautifulSoup(page, 'lxml')
                 soup = BeautifulSoup( self._pretty_html(soupFull), 'lxml')
             except bs4.FeatureNotFound as e:
-                logging.warning("lxml parser not found, try to use html5lib")
+                logging.warning("lxml parser not found, trying html5lib")
                 soupFull = BeautifulSoup(page, "html5lib")
                 soup = BeautifulSoup( self._pretty_html(soupFull), 'html5lib')
             
