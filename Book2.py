@@ -161,8 +161,8 @@ class Book:
                 logging.info("Start fetching {}. {}/{} epoch.".format(URL, i + 1, pages_limit))            
             
             # check if the content is the same as previous page
-            # trying to add condition for 'div' being in soup (to handle pages with headers but no text)
-            #note: changed the order of MF's code here
+            # condition for 'div' being in soup (to handle pages with headers but no text). TODO: cleanup
+            #note: changed the order of original Book code here
             if i == 0 or not self.flat_bodies[-1].find_all('div'):
             #if i == 0 or not soup.find_all('div'):
                 buffer = ['dummy']
@@ -170,21 +170,21 @@ class Book:
             else:
                 buffer = self.flat_bodies[-1].find_all('div', attrs={'style': True})
                         
-            # if the first and last elements in the buffer are the same as current page. The comparison here is for end and start sentences of a poem. It's quite unlikely two poems have the same start and end senetences, right?
+            # if the first and last elements in the buffer are the same as current page. The comparison here is for end and start sentences of a text. It's quite unlikely two texts have the same start and end sentences, right?
             # delete page and save the current page.
-            ### no hidden traps??
+            # TODO: no hidden traps?? what if no 'div'?
             
             #print(buffer)  # heuristic. disable.
 
             # this "if" clause seems to work
             if not soup.find_all('div'):
             # append to flat bodies
-                logging.warning("This ran the IF clause.")
+                #logging.warning("This ran the IF clause.")
                 self.flat_bodies.append(soup)
                                     
-            # this "elif" does not seem to work.
+            # does this "elif" work right?
             elif soup.find_all('div') and (buffer[-1] == soup.find_all('div', attrs={'style': True})[-1]) and (buffer[0] == soup.find_all('div', attrs={'style': True})[0]):
-                logging.warning("This ran the ELIF clause.")
+                #logging.warning("This ran the ELIF clause.")
                 logging.warning("This page is the same as the previous one, discard previous one and store the new one.")
                 self.flat_bodies[-1] = soup            
             # apparently no problem with the "else" part?
@@ -214,7 +214,7 @@ class Book:
         self.paths = []
         
         for soup in self.flat_bodies:
-            # extract "gobookmark" class
+            # extract "gobookmark" class, which contains basic info
             path  = soup.find('a', attrs={'class', 'gobookmark'}).text
             self.paths.append(path)
     
